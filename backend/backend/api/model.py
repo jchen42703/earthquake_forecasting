@@ -25,6 +25,13 @@ class ModelWrapper(object):
             raise NotImplementedError
         return self.model
 
+    def num_features(self):
+        """Number of input features that the model expects"""
+        if self.model_type == "lightgbm":
+            return self.model.num_feature()
+        else:
+            raise NotImplementedError
+
     def predict(self, x: np.ndarray) -> np.ndarray:
         """Predicts for an array, x
 
@@ -37,6 +44,6 @@ class ModelWrapper(object):
                 Ex:
                     array([3, 2])
         """
-        y_pred = self.model.predict(x)
+        y_pred = self.model.predict(x, num_threads=1)
 
         return y_pred.argmax(axis=1) + 1
