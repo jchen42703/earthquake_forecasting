@@ -15,7 +15,8 @@ class ModelWrapper(object):
             model_type.lower() in supported_models
         ), f"{model_type} is not one of: {supported_models}"
 
-        self.load_model(model_path)
+        if model_path is not None:
+            self.load_model(model_path)
 
     def load_model(self, path: str):
         if self.model_type == "lightgbm":

@@ -9,8 +9,10 @@ import numpy as np
 class Encoder(object):
     """For managing the encoder model and replacing geo_level embeddings"""
 
-    def __init__(self):
+    def __init__(self, weights_path: str):
         self.model = None
+        if weights_path is not None:
+            self.create_model(weights_path)
 
     def __autoencoder(
         self,
