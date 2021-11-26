@@ -1,8 +1,6 @@
 import numpy as np
-import os
 import numpy as np
 import pandas as pd
-import lightgbm as lgb
 
 from .model import ModelWrapper
 from .encoder import Encoder
@@ -21,10 +19,15 @@ class PredictionPipeline(object):
     """
 
     def __init__(
-        self, encoder_path: str, model_type: str, model_path: str = None
+        self,
+        encoder_path: str,
+        one_hot_cols: str,
+        one_hot_geo_path: str,
+        model_type: str,
+        model_path: str = None,
     ) -> None:
         self.model: ModelWrapper = ModelWrapper(model_type, model_path)
-        self.encoder: Encoder = Encoder(encoder_path)
+        self.encoder: Encoder = Encoder(encoder_path, one_hot_cols, one_hot_geo_path)
 
     def predict(self, df: pd.DataFrame) -> np.ndarray:
         """Runs the full prediction pipeline with a batch size of 1"""
@@ -36,7 +39,7 @@ class PredictionPipeline(object):
                 + f"{(data.shape[0], self.model.num_features())}"
             )
 
-        y_pred = self.model.predict(data)
+        y_pred = self.model.predict(data, False)
         return y_pred
 
 
