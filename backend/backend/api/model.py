@@ -15,6 +15,8 @@ class ModelWrapper(object):
             model_type.lower() in supported_models
         ), f"{model_type} is not one of: {supported_models}"
 
+        self.model_type = model_type
+
         if model_path is not None:
             self.load_model(model_path)
 
@@ -32,7 +34,7 @@ class ModelWrapper(object):
         else:
             raise NotImplementedError
 
-    def predict(self, x: np.ndarray) -> np.ndarray:
+    def predict(self, x: np.ndarray, do_argmax: bool = True) -> np.ndarray:
         """Predicts for an array, x
 
         Args:
@@ -46,4 +48,7 @@ class ModelWrapper(object):
         """
         y_pred = self.model.predict(x, num_threads=1)
 
-        return y_pred.argmax(axis=1) + 1
+        if do_argmax:
+            return y_pred.argmax(axis=1) + 1
+        else:
+            return y_pred
