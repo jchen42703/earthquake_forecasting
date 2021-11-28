@@ -26,10 +26,15 @@ def initialize(config_path: str, isTrainData: bool) -> pd.DataFrame:
 
 
 @router.post("/data")
-async def predict(payload: RandomData) -> JSONResponse:
+async def fetch_data(payload: RandomData) -> JSONResponse:
     df, label_df = initialize("./config.yml", payload.isTrainData)
     row = df.sample(1).iloc[0].to_dict()
-    label_row = (
-        label_df.loc[label_df["building_id"] == row["building_id"]].iloc[0].to_dict()
-    )
+    if label_df != None:
+        label_row = (
+            label_df.loc[label_df["building_id"] == row["building_id"]]
+            .iloc[0]
+            .to_dict()
+        )
+    else:
+        label_row = None
     return {"input_row": row, "label_row": label_row}
