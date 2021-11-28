@@ -48,6 +48,16 @@ export interface InputData {
   has_secondary_use_other: number;
 }
 
+export interface LabelRow {
+  building_id: number;
+  damage_grade: number;
+}
+
+export interface FetchDataResp {
+  input_row: InputData;
+  label_row: LabelRow | null;
+}
+
 // gets the data from the specified dataset with a POST request.
 const fetchData = async (isTrainData: boolean) => {
   let payload: GetDataPayload = {
@@ -55,7 +65,7 @@ const fetchData = async (isTrainData: boolean) => {
   };
 
   try {
-    return await axios.post<GetDataPayload, InputData>(
+    return await axios.post<GetDataPayload, FetchDataResp>(
       `${cfg.API_URL}/api/data`,
       payload
     );
