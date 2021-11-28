@@ -1,3 +1,6 @@
+train_path: "/home/joseph/Coding/ml_projects/earthquake_forecasting/data/train_values.csv"
+label_path: "/home/joseph/Coding/ml_projects/earthquake_forecasting/data/train_labels.csv"
+test_path: "/home/joseph/Coding/ml_projects/earthquake_forecasting/data/test_values.csv"
 prediction:
   encoder_path: "/home/joseph/Coding/ml_projects/earthquake_forecasting/models/geo_embed.h5"
   one_hot_geo_path: "/home/joseph/Coding/ml_projects/earthquake_forecasting/models/one_hot_geo.joblib"
