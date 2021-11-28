@@ -1,6 +1,5 @@
 import axios from "axios";
 import fetchData, { FetchDataResp } from "../data";
-import cfg from "../../config/config";
 
 jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<typeof axios>;
