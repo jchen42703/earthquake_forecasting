@@ -2,6 +2,11 @@ import axios, { AxiosError } from "axios";
 import cfg from "../config/config";
 import { InputData } from "./data";
 
+export interface PredReqBody {
+  model_type: string;
+  data: InputData;
+}
+
 // Example response:
 //   {
 //     "confidences": [
@@ -20,11 +25,11 @@ export interface PredRespBody {
   prediction?: number[] | null;
 }
 
-const postPred = async (data: InputData) => {
+const postPred = async (payload: PredReqBody) => {
   try {
-    return await axios.post<InputData, PredRespBody>(
+    return await axios.post<PredReqBody, PredRespBody>(
       `${cfg.API_URL}/api/predict`,
-      data
+      payload
     );
   } catch (err: AxiosError | any) {
     if (axios.isAxiosError(err)) {
