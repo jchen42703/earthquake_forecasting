@@ -17,6 +17,8 @@ class TrainPipeline(object):
         num_epochs: int = 20000,
         early_stopping_rounds: int = 3000,
         cpu_only: bool = True,
+        cat_model_params: dict = {},
+        fit_params: dict = {},
     ) -> None:
         """
         Args:
@@ -46,6 +48,10 @@ class TrainPipeline(object):
         self.num_epochs = num_epochs
         self.early_stopping_rounds = early_stopping_rounds
         self.cpu_only = cpu_only
+
+        # additional params
+        self.cat_model_params = cat_model_params
+        self.fit_params = fit_params
 
     def create_split(self, train_index: List[int], test_index: List[int]):
         return (
@@ -78,13 +84,13 @@ class TrainPipeline(object):
             "task_type": "CPU" if self.cpu_only else "GPU",
             "random_seed": self.seed,
             "early_stopping_rounds": self.early_stopping_rounds,
-            "eval_metric": "TotalF1:average=Micro",
             "train_dir": self.export_dir,
+            **self.cat_model_params,
         }
 
         clf = CatBoostClassifier(**params)
 
-        clf.fit(train_dataset, eval_set=test_dataset, verbose=True)
+        clf.fit(train_dataset, eval_set=test_dataset, **self.fit_params)
         # f1 = clf.eval_metrics(test_dataset, ["TotalF1"])
         print("CatBoost model is fitted: " + str(clf.is_fitted()))
         print("CatBoost model parameters: \n", clf.get_params())
