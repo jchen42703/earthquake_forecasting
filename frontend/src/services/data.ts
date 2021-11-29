@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios";
 import cfg from "../config/config";
+import { AxResponse } from "./axiosTypes";
 
 // Structure of the input data without the embeds
 export interface InputData {
@@ -57,9 +58,10 @@ export interface FetchDataResp {
 // gets the data from the specified dataset with a POST request.
 const fetchData = async (isTrainData: boolean) => {
   try {
-    return await axios.get<FetchDataResp>(
+    const { data } = await axios.get<FetchDataResp>(
       `${cfg.API_URL}/api/data?getTrainData=${isTrainData}`
     );
+    return data;
   } catch (err: AxiosError | any) {
     if (axios.isAxiosError(err)) {
       // Access to config, request, and response

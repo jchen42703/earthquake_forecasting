@@ -1,6 +1,7 @@
 import axios, { AxiosError } from "axios";
 import cfg from "../config/config";
 import { InputData } from "./data";
+import { AxResponse } from "./axiosTypes";
 
 export interface PredReqBody {
   model_type: string;
@@ -21,16 +22,18 @@ export interface PredReqBody {
 //     ]
 //   }
 export interface PredRespBody {
-  confidences?: (number[] | null)[] | null;
-  prediction?: number[] | null;
+  confidences?: number[][];
+  prediction?: number[];
+  error?: string;
 }
 
 const postPred = async (payload: PredReqBody) => {
   try {
-    return await axios.post<PredReqBody, PredRespBody>(
+    const { data } = await axios.post<PredReqBody, AxResponse<PredRespBody>>(
       `${cfg.API_URL}/api/predict`,
       payload
     );
+    return data;
   } catch (err: AxiosError | any) {
     if (axios.isAxiosError(err)) {
       // Access to config, request, and response
