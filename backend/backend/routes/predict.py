@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from starlette.responses import JSONResponse
 import pandas as pd
@@ -9,13 +9,22 @@ from backend.utils.load_yml import load_config
 router = APIRouter()
 
 
-def initialize_pipeline(config_path: str) -> PredictionPipeline:
-    """Initializes a prediction pipeline"""
-    cfg = load_config(config_path)["prediction"]
+def initialize_pipeline(config_path: str, model_type: str) -> PredictionPipeline:
+    """Initializes a prediction pipeline
+
+    Args:
+        model_type: One of 'catboost' or 'lightgbm'
+    """
+    if model_type.lower() == "catboost":
+        key = "prediction_cat"
+    elif model_type.lower() == "lightgbm":
+        key = "prediction_lgb"
+    cfg = load_config(config_path)[key]
     return PredictionPipeline(**cfg)
 
 
-pipeline = initialize_pipeline("./config.yml")
+cat_pipeline = initialize_pipeline("./config.yml", "catboost")
+lgb_pipeline = initialize_pipeline("./config.yml", "lightgbm")
 
 
 class RawData(BaseModel):
@@ -110,14 +119,89 @@ class RawData(BaseModel):
         }
 
 
+class PredictReq(BaseModel):
+    """For post /api/predict"""
+
+    model_type: str
+    data: RawData
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "model_type": "lightgbm",
+                "data": {
+                    "building_id": 802906,
+                    "geo_level_1_id": 6,
+                    "geo_level_2_id": 487,
+                    "geo_level_3_id": 12198,
+                    "count_floors_pre_eq": 2,
+                    "age": 30,
+                    "area_percentage": 6,
+                    "height_percentage": 5,
+                    "land_surface_condition": "t",
+                    "foundation_type": "r",
+                    "roof_type": "n",
+                    "ground_floor_type": "f",
+                    "other_floor_type": "q",
+                    "position": "t",
+                    "plan_configuration": "d",
+                    "has_superstructure_adobe_mud": 1,
+                    "has_superstructure_mud_mortar_stone": 1,
+                    "has_superstructure_stone_flag": 0,
+                    "has_superstructure_cement_mortar_stone": 0,
+                    "has_superstructure_mud_mortar_brick": 0,
+                    "has_superstructure_cement_mortar_brick": 0,
+                    "has_superstructure_timber": 0,
+                    "has_superstructure_bamboo": 0,
+                    "has_superstructure_rc_non_engineered": 0,
+                    "has_superstructure_rc_engineered": 0,
+                    "has_superstructure_other": 0,
+                    "legal_ownership_status": "v",
+                    "count_families": 1,
+                    "has_secondary_use": 0,
+                    "has_secondary_use_agriculture": 0,
+                    "has_secondary_use_hotel": 0,
+                    "has_secondary_use_rental": 0,
+                    "has_secondary_use_institution": 0,
+                    "has_secondary_use_school": 0,
+                    "has_secondary_use_industry": 0,
+                    "has_secondary_use_health_post": 0,
+                    "has_secondary_use_gov_office": 0,
+                    "has_secondary_use_use_police": 0,
+                    "has_secondary_use_other": 0,
+                },
+            }
+        }
+
+
 @router.post("/predict")
-async def predict(data: RawData) -> JSONResponse:
-    confidences = pipeline.predict(pd.DataFrame(data.dict(), index=[0]))
+async def predict(req: PredictReq) -> JSONResponse:
+    data = req.data
+    model_type = req.model_type
+    if model_type == "catboost":
+        confidences = cat_pipeline.predict(pd.DataFrame(data.dict(), index=[0]))
+    elif model_type == "lightgbm":
+        confidences = lgb_pipeline.predict(pd.DataFrame(data.dict(), index=[0]))
+    else:
+        raise HTTPException(
+            status_code=400,
+            detail={"msg": f"model_type {model_type} is not supported."},
+        )
+
     pred = confidences.argmax(axis=1) + 1
     return {"confidences": confidences.tolist(), "prediction": pred.tolist()}
 
 
 @router.get("/num_feats")
-async def num_feats() -> JSONResponse:
-    num_features = pipeline.model.num_features()
+async def num_feats(model_type: str) -> JSONResponse:
+    if model_type == "catboost":
+        num_features = cat_pipeline.model.num_features()
+    elif model_type == "lightgbm":
+        num_features = lgb_pipeline.model.num_features()
+    else:
+        raise HTTPException(
+            status_code=400,
+            detail={"msg": f"model_type {model_type} is not supported."},
+        )
+
     return {"num_features": num_features}
