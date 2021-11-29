@@ -51,8 +51,9 @@ export interface LabelRow {
 }
 
 export interface FetchDataResp {
-  input_row: InputData;
-  label_row: LabelRow | null;
+  input_row?: InputData;
+  label_row?: LabelRow | null;
+  error?: string;
 }
 
 // gets the data from the specified dataset with a POST request.
@@ -70,7 +71,9 @@ const fetchData = async (isTrainData: boolean) => {
       };
     } else {
       // Just a stock error
-      console.log(err);
+      return {
+        error: "An internal error occurred. post for predictions failed.",
+      };
     }
   }
 };
