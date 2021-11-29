@@ -29,7 +29,7 @@ def initialize(config_path: str, isTrainData: bool) -> pd.DataFrame:
 async def fetch_data(payload: RandomData) -> JSONResponse:
     df, label_df = initialize("./config.yml", payload.isTrainData)
     row = df.sample(1).iloc[0].to_dict()
-    if label_df != None:
+    if isinstance(label_df, pd.DataFrame):
         label_row = (
             label_df.loc[label_df["building_id"] == row["building_id"]]
             .iloc[0]
