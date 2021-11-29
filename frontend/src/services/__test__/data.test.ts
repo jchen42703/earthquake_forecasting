@@ -56,13 +56,13 @@ describe("fetchData", () => {
         },
       };
 
-      mockedAxios.post.mockResolvedValueOnce(exampleResp);
+      mockedAxios.get.mockResolvedValueOnce(exampleResp);
 
       // when
       const result = await fetchData(true);
 
       // then
-      expect(mockedAxios.post).toHaveBeenCalled();
+      expect(mockedAxios.get).toHaveBeenCalled();
       expect(result).toEqual(exampleResp);
     });
   });
@@ -115,13 +115,13 @@ describe("fetchData", () => {
         label_row: null,
       };
 
-      mockedAxios.post.mockResolvedValueOnce(exampleResp);
+      mockedAxios.get.mockResolvedValueOnce(exampleResp);
 
       // when
       const result = await fetchData(false);
 
       // then
-      expect(mockedAxios.post).toHaveBeenCalled();
+      expect(mockedAxios.get).toHaveBeenCalled();
       expect(result).toEqual(exampleResp);
     });
   });
