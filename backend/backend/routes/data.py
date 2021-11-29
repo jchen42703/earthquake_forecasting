@@ -7,10 +7,6 @@ from backend.utils.load_yml import load_config
 router = APIRouter()
 
 
-class RandomData(BaseModel):
-    isTrainData: bool
-
-
 def initialize(config_path: str, isTrainData: bool) -> pd.DataFrame:
     """Initializes the data"""
     if isTrainData:
@@ -25,9 +21,13 @@ def initialize(config_path: str, isTrainData: bool) -> pd.DataFrame:
     return df, label_df
 
 
-@router.post("/data")
-async def fetch_data(payload: RandomData) -> JSONResponse:
-    df, label_df = initialize("./config.yml", payload.isTrainData)
+@router.get("/data")
+async def fetch_data(getTrainData: bool) -> JSONResponse:
+    """
+    Example query:
+        http://localhost:8000/api/data?getTrainData=false
+    """
+    df, label_df = initialize("./config.yml", getTrainData)
     row = df.sample(1).iloc[0].to_dict()
     if isinstance(label_df, pd.DataFrame):
         label_row = (
