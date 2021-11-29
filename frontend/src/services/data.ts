@@ -1,10 +1,6 @@
 import axios, { AxiosError } from "axios";
 import cfg from "../config/config";
 
-export interface GetDataPayload {
-  isTrainData: boolean;
-}
-
 // Structure of the input data without the embeds
 export interface InputData {
   building_id: number;
@@ -60,14 +56,9 @@ export interface FetchDataResp {
 
 // gets the data from the specified dataset with a POST request.
 const fetchData = async (isTrainData: boolean) => {
-  let payload: GetDataPayload = {
-    isTrainData: isTrainData,
-  };
-
   try {
-    return await axios.post<GetDataPayload, FetchDataResp>(
-      `${cfg.API_URL}/api/data`,
-      payload
+    return await axios.get<FetchDataResp>(
+      `${cfg.API_URL}/api/data?getTrainData=${isTrainData}`
     );
   } catch (err: AxiosError | any) {
     if (axios.isAxiosError(err)) {
