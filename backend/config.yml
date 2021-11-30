@@ -4,10 +4,8 @@ test_path: "/home/joseph/Coding/ml_projects/earthquake_forecasting/data/test_val
 prediction_cat:
   encoder_path: "/home/joseph/Coding/ml_projects/earthquake_forecasting/models/geo_embed.h5"
   one_hot_geo_path: "/home/joseph/Coding/ml_projects/earthquake_forecasting/models/one_hot_geo.joblib"
-  # model_type: "lightgbm"
-  # model_path: "/home/joseph/Coding/ml_projects/earthquake_forecasting/models/lgb/model0.txt"
   model_type: "catboost"
-  model_path: "/home/joseph/Coding/ml_projects/earthquake_forecasting/models/catboost/catboost_test.cbm"
+  model_path: "/home/joseph/Coding/ml_projects/earthquake_forecasting/models/catboost/catboost_fold1.cbm"
   one_hot_cols:
     [
       "count_floors_pre_eq",
