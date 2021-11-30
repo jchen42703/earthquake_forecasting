@@ -91,7 +91,12 @@ class TrainPipeline(object):
         clf = CatBoostClassifier(**params)
 
         clf.fit(train_dataset, eval_set=test_dataset, **self.fit_params)
-        f1 = clf.eval_metrics(test_dataset, ["TotalF1:average=Micro"])
+
+        # Gets the performance of the last tree
+        metric_key = "TotalF1:average=Micro"
+        f1 = clf.eval_metrics(test_dataset, [metric_key],)[
+            metric_key
+        ][-1]
         print("CatBoost model is fitted: " + str(clf.is_fitted()))
         print("CatBoost model parameters: \n", clf.get_params())
         print("F1: ", f1)
