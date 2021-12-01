@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { InputData } from "../services/data";
 import postPred, { PredReqBody } from "../services/predict";
+import { floatArr2String } from "../services/printing";
 
 interface PredProps {
   modelType: string;
@@ -35,7 +36,7 @@ const Predictions = (props: PredProps) => {
   return (
     <React.Fragment>
       <p>Prediction: {pred}</p>
-      <p>Confidences: {confidences}</p>
+      <p>Confidences: {floatArr2String(confidences)}</p>
     </React.Fragment>
   );
 };
