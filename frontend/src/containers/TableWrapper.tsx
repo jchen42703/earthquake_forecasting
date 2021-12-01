@@ -25,7 +25,7 @@ const TableWrapper = () => {
           handleClick(true);
         }}
       >
-        Sample training data
+        Sample and predict training data
       </Button>{" "}
       <Button
         variant="primary"
@@ -34,7 +34,7 @@ const TableWrapper = () => {
           handleClick(false);
         }}
       >
-        Sample test data
+        Sample and predict test data
       </Button>
       <DataTable data={data.input_row}></DataTable>
       {data.label_row !== null && <DataTable data={data.label_row}></DataTable>}
