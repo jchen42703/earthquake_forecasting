@@ -3,26 +3,9 @@ from pydantic import BaseModel
 from starlette.responses import JSONResponse
 import pandas as pd
 
-from backend.api.prediction import PredictionPipeline
-from backend.utils.load_yml import load_config
+from backend.api.prediction import initialize_pipeline
 
 router = APIRouter()
-
-
-def initialize_pipeline(config_path: str, model_type: str) -> PredictionPipeline:
-    """Initializes a prediction pipeline
-
-    Args:
-        model_type: One of 'catboost' or 'lightgbm'
-    """
-    if model_type.lower() == "catboost":
-        key = "prediction_cat"
-    elif model_type.lower() == "lightgbm":
-        key = "prediction_lgb"
-    cfg = load_config(config_path)[key]
-    return PredictionPipeline(**cfg)
-
-
 cat_pipeline = initialize_pipeline("./config.yml", "catboost")
 lgb_pipeline = initialize_pipeline("./config.yml", "lightgbm")
 
