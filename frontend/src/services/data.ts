@@ -56,6 +56,54 @@ export interface FetchDataResp {
   error?: string;
 }
 
+export const defaultData = {
+  input_row: {
+    building_id: 730015,
+    geo_level_1_id: 3,
+    geo_level_2_id: 1387,
+    geo_level_3_id: 6175,
+    count_floors_pre_eq: 4,
+    age: 60,
+    area_percentage: 3,
+    height_percentage: 8,
+    land_surface_condition: "t",
+    foundation_type: "r",
+    roof_type: "n",
+    ground_floor_type: "f",
+    other_floor_type: "q",
+    position: "o",
+    plan_configuration: "d",
+    has_superstructure_adobe_mud: 1,
+    has_superstructure_mud_mortar_stone: 0,
+    has_superstructure_stone_flag: 0,
+    has_superstructure_cement_mortar_stone: 0,
+    has_superstructure_mud_mortar_brick: 1,
+    has_superstructure_cement_mortar_brick: 0,
+    has_superstructure_timber: 1,
+    has_superstructure_bamboo: 1,
+    has_superstructure_rc_non_engineered: 0,
+    has_superstructure_rc_engineered: 0,
+    has_superstructure_other: 0,
+    legal_ownership_status: "v",
+    count_families: 1,
+    has_secondary_use: 0,
+    has_secondary_use_agriculture: 0,
+    has_secondary_use_hotel: 0,
+    has_secondary_use_rental: 0,
+    has_secondary_use_institution: 0,
+    has_secondary_use_school: 0,
+    has_secondary_use_industry: 0,
+    has_secondary_use_health_post: 0,
+    has_secondary_use_gov_office: 0,
+    has_secondary_use_use_police: 0,
+    has_secondary_use_other: 0,
+  },
+  label_row: {
+    building_id: 730015,
+    damage_grade: 2,
+  },
+};
+
 // gets the data from the specified dataset with a POST request.
 const fetchData = async (isTrainData: boolean) => {
   try {
