@@ -4,6 +4,7 @@ import DataTable from "./DataTable";
 import Predictions from "./Predictions";
 import Button from "react-bootstrap/Button";
 import NavHeader from "./NavHeader";
+import Container from "react-bootstrap/Container";
 
 const TableWrapper = () => {
   const [data, setData] = useState<FetchDataResp>(defaultData);
@@ -18,27 +19,33 @@ const TableWrapper = () => {
   return (
     <React.Fragment>
       <NavHeader></NavHeader>
-      <Button
-        variant="primary"
-        size="sm"
-        onClick={() => {
-          handleClick(true);
-        }}
-      >
-        Sample and predict training data
-      </Button>{" "}
-      <Button
-        variant="primary"
-        size="sm"
-        onClick={() => {
-          handleClick(false);
-        }}
-      >
-        Sample and predict test data
-      </Button>
-      <DataTable data={data.input_row}></DataTable>
-      {data.label_row !== null && <DataTable data={data.label_row}></DataTable>}
-      <Predictions inputData={data.input_row!}></Predictions>
+      <Container fluid className={"mt-3"}>
+        <Button
+          variant="primary"
+          size="sm"
+          onClick={() => {
+            handleClick(true);
+          }}
+          className={"mb-3"}
+        >
+          Sample and predict training data
+        </Button>{" "}
+        <Button
+          variant="primary"
+          size="sm"
+          onClick={() => {
+            handleClick(false);
+          }}
+          className={"mb-3"}
+        >
+          Sample and predict test data
+        </Button>
+        <DataTable data={data.input_row}></DataTable>
+        {data.label_row !== null && (
+          <DataTable data={data.label_row}></DataTable>
+        )}
+        <Predictions inputData={data.input_row!}></Predictions>
+      </Container>
     </React.Fragment>
   );
 };

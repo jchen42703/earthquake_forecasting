@@ -1,0 +1,13 @@
+.pred-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  column-gap: 5%;
+
+  .pred-confidences {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+  }
+}

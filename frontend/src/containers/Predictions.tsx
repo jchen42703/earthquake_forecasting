@@ -3,6 +3,7 @@ import { InputData } from "../services/data";
 import postPred, { PredReqBody } from "../services/predict";
 import { floatArr2String } from "../services/printing";
 import Dropdown from "react-bootstrap/Dropdown";
+import "../styles/prediction.scss";
 
 interface PredProps {
   inputData: InputData;
@@ -36,7 +37,7 @@ const Predictions = (props: PredProps) => {
   }, [modelType, props.inputData]);
 
   return (
-    <React.Fragment>
+    <div className="pred-container">
       <Dropdown key={modelType}>
         <Dropdown.Toggle variant="success" id="dropdown-basic">
           Model Type: {modelType}
@@ -60,9 +61,11 @@ const Predictions = (props: PredProps) => {
         </Dropdown.Menu>
       </Dropdown>
 
-      <p>Prediction: {pred}</p>
-      <p>Confidences: {floatArr2String(confidences)}</p>
-    </React.Fragment>
+      <div className="pred-confidences">
+        <p>Prediction: {pred}</p>
+        <p>Confidences: {floatArr2String(confidences)}</p>
+      </div>
+    </div>
   );
 };
 
