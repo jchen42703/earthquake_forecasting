@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import fetchData, { defaultData, FetchDataResp } from "../services/data";
 import DataTable from "./DataTable";
 import Predictions from "./Predictions";
+import Button from "react-bootstrap/Button";
+import NavHeader from "./NavHeader";
 
 const TableWrapper = () => {
   const [data, setData] = useState<FetchDataResp>(defaultData);
@@ -15,30 +17,28 @@ const TableWrapper = () => {
 
   return (
     <React.Fragment>
-      <p>Table component</p>
-      <button
+      <NavHeader></NavHeader>
+      <Button
+        variant="primary"
+        size="sm"
         onClick={() => {
           handleClick(true);
         }}
       >
         Sample training data
-      </button>
-
-      <button
+      </Button>{" "}
+      <Button
+        variant="primary"
+        size="sm"
         onClick={() => {
           handleClick(false);
         }}
       >
         Sample test data
-      </button>
-
+      </Button>
       <DataTable data={data.input_row}></DataTable>
       {data.label_row !== null && <DataTable data={data.label_row}></DataTable>}
-
-      <Predictions
-        modelType={"lightgbm"}
-        inputData={data.input_row!}
-      ></Predictions>
+      <Predictions inputData={data.input_row!}></Predictions>
     </React.Fragment>
   );
 };
