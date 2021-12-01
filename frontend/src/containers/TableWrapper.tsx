@@ -19,7 +19,7 @@ const TableWrapper = () => {
   return (
     <React.Fragment>
       <NavHeader></NavHeader>
-      <Container fluid className={"mt-3"}>
+      <Container fluid className={"mt-3 overflow-hidden"}>
         <Button
           variant="primary"
           size="sm"

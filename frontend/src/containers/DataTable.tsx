@@ -1,32 +1,33 @@
-import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
-import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
+import Row from "./Row";
+import "../styles/table.scss";
 
 /**
  * Single row table to show the values
  * @param props
  * @returns JSX
  */
-export default function DataTable(props: any) {
-  const getTableHead = (data: any) => {
-    return Object.keys(data).map((key) => {
-      return <Th key={key}>{key}</Th>;
-    });
-  };
-
-  const getDataRowValues = (data: any) => {
-    return Object.values(data).map((value: any) => {
-      return <Td key={value}>{value}</Td>;
+export default function DataTable(props: { [data: string]: any }) {
+  const getRows = (data: { [colName: string]: any }) => {
+    return Object.entries(data).map(([colName, value], _) => {
+      return (
+        <Row
+          key={`${colName}_${value}`}
+          origColName={colName}
+          value={value}
+          classes={["bg-light"]}
+        ></Row>
+      );
     });
   };
 
   return (
-    <Table>
-      <Thead>
-        <Tr>{getTableHead(props.data)}</Tr>
-      </Thead>
-      <Tbody>
-        <Tr>{getDataRowValues(props.data)}</Tr>
-      </Tbody>
-    </Table>
+    <div className={"data-table"}>
+      <Row
+        origColName={"Input Features"}
+        value={"Values"}
+        classes={["bg-dark", "text-light"]}
+      ></Row>
+      {getRows(props.data)}
+    </div>
   );
 }

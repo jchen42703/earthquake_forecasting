@@ -8,7 +8,7 @@ const NavHeader = () => {
     <React.Fragment>
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">
+          <Navbar.Brand>
             Forecasting Earthquake Damage with Machine Learning
           </Navbar.Brand>
           {/* <Nav className="me-auto">

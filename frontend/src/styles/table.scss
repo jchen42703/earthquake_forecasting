@@ -1,0 +1,13 @@
+.data-table {
+  margin: 0 5% 3% 5%;
+}
+
+.row {
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  text-align: left;
+  * {
+    flex-shrink: 1;
+  }
+}
