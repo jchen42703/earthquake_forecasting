@@ -1,3 +1,17 @@
+# Deploying with Docker
+
+To build:
+
+```
+docker build -t eq_frontend .
+```
+
+To run:
+
+```
+docker run -d --name eq_frontend_container -p 3006:3006 eq_frontend
+```
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
