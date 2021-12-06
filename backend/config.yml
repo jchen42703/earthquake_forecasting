@@ -1,11 +1,11 @@
-train_path: "../data/train_values.csv"
-label_path: "..//data/train_labels.csv"
-test_path: "../data/test_values.csv"
+train_path: "./data/train_values.csv"
+label_path: "./data/train_labels.csv"
+test_path: "./data/test_values.csv"
 prediction_cat:
-  encoder_path: "../productionModels/geo_embed.h5"
-  one_hot_geo_path: "../productionModels/one_hot_geo.joblib"
+  encoder_path: "./productionModels/geo_embed.h5"
+  one_hot_geo_path: "./productionModels/one_hot_geo.joblib"
   model_type: "catboost"
-  model_path: "../productionModels/catboost_fold1.cbm"
+  model_path: "./productionModels/catboost_fold1.cbm"
   one_hot_cols:
     [
       "count_floors_pre_eq",
@@ -76,10 +76,10 @@ prediction_cat:
     ]
 
 prediction_lgb:
-  encoder_path: "../productionModels/geo_embed.h5"
-  one_hot_geo_path: "../productionModels/one_hot_geo.joblib"
+  encoder_path: "./productionModels/geo_embed.h5"
+  one_hot_geo_path: "./productionModels/one_hot_geo.joblib"
   model_type: "lightgbm"
-  model_path: "../productionModels/model0.txt"
+  model_path: "./productionModels/model0.txt"
   one_hot_cols:
     [
       "count_floors_pre_eq",
