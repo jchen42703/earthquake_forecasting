@@ -1,12 +1,23 @@
-from fastapi import FastAPI, Request
-import fastapi
+from fastapi import FastAPI
+import os
 from fastapi.middleware.cors import CORSMiddleware
 from backend.routes import all
+from typing import List
 
-origins = [
-    "http://localhost",
-    "http://localhost:3006",
-]
+
+def get_origins() -> List[str]:
+    env = os.environ.get("ENV_TYPE")
+    isProd = env == "production"
+
+    if isProd:
+        origins = ["http://earthquakedamageforecast.com/"]
+    else:
+        origins = [
+            "http://localhost",
+            "http://localhost:3006",
+        ]
+    print("origins: ", origins)
+    return origins
 
 
 def get_application(api_prefix: str) -> FastAPI:
@@ -20,7 +31,7 @@ def get_application(api_prefix: str) -> FastAPI:
 
     application.add_middleware(
         CORSMiddleware,
-        allow_origins=origins,
+        allow_origins=get_origins(),
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
