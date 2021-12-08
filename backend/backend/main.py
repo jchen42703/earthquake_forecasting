@@ -10,7 +10,7 @@ def get_origins() -> List[str]:
     isProd = env == "production"
 
     if isProd:
-        origins = ["http://earthquakedamageforecast.com/"]
+        origins = ["https://earthquakedamageforecast.com/"]
     else:
         origins = [
             "http://localhost",

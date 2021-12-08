@@ -1,6 +1,6 @@
 const port = process.env.REACT_APP_API_PORT;
 const devUrl = `http://localhost:${port}`;
-const prodUrl = "http://earthquakedamageforecast.com";
+const prodUrl = "https://earthquakedamageforecast.com";
 
 const API_URL =
   process.env.REACT_APP_NODE_ENV === "production" ? prodUrl : devUrl;
